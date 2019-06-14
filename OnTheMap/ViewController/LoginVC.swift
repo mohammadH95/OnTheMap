@@ -24,6 +24,11 @@ class LoginVC: UIViewController {
     
     @IBAction func loginTapped(_ sender: UIButton) {
         setLoggingIn(true)
+        if emailText.text == "" && passwordText.text == "" {
+            showError(message: "Please Enter username and password")
+            setLoggingIn(false)
+            return
+        }
         API.login(username: emailText.text ?? "", password: passwordText.text ?? "", completion: handlerLoginResponse(success:error:))
     }
     
@@ -46,10 +51,12 @@ class LoginVC: UIViewController {
         passwordText.isEnabled = !loggingIn
         login.isEnabled = !loggingIn
     }
-    
-    func showError(message: String) {
-        let alertVC = UIAlertController(title: "Login Failed", message: message, preferredStyle: .alert)
-        alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        show(alertVC, sender: nil)
+}
+
+extension LoginVC: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        emailText.resignFirstResponder()
+        passwordText.resignFirstResponder()
+        return true
     }
 }

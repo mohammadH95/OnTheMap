@@ -15,6 +15,7 @@ class NewPinVC: UIViewController {
     @IBOutlet weak var websitText: UITextField!
     @IBOutlet weak var findButton: UIButton!
     @IBOutlet weak var cancelButton: UIBarButtonItem!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +27,8 @@ class NewPinVC: UIViewController {
     }
     
     @IBAction func FindAction(_ sender: UIButton) {
+        activityIndicator.startAnimating()
+        
         let location = MKLocalSearch.Request()
         location.naturalLanguageQuery = locationText.text
         let request = MKLocalSearch(request: location)
@@ -33,6 +36,7 @@ class NewPinVC: UIViewController {
         request.start { (response, error) in
             guard let response = response else {
                 self.showError(message: error?.localizedDescription ?? "")
+                self.activityIndicator.stopAnimating()
                 return
             }
             let lat = response.boundingRegion.center.latitude as Double
@@ -45,6 +49,7 @@ class NewPinVC: UIViewController {
         API.getStudentInfo { (student, error) in
             guard let student = student else {
                 self.showError(message: error?.localizedDescription ?? "")
+                self.activityIndicator.stopAnimating()
                 return
             }
             let info = StudentLocation(createdAt: "", firstName: student.firstName, lastName: student.lastName, latitude: lat, longitude: long, mapString: self.locationText.text, mediaURL: self.websitText.text, objectId: "", uniqueKey: API.User.userId, updatedAt: "")
@@ -53,6 +58,7 @@ class NewPinVC: UIViewController {
     }
     
     func passData(student: StudentLocation) {
+        activityIndicator.stopAnimating()
         
         let mapVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SharePinVC") as! SharePinVC
         mapVC.student = student
@@ -60,10 +66,12 @@ class NewPinVC: UIViewController {
         self.navigationController?.pushViewController(mapVC, animated: true)
         
     }
-    
-    func showError(message: String) {
-        let alertVC = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-        alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        show(alertVC, sender: nil)
+}
+
+extension NewPinVC: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        locationText.resignFirstResponder()
+        websitText.resignFirstResponder()
+        return true
     }
 }

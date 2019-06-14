@@ -58,12 +58,6 @@ class SharePinVC: UIViewController {
         let viewRegion = MKCoordinateRegion(center: location, latitudinalMeters: 200, longitudinalMeters: 200)
         mapView.setRegion(viewRegion, animated: false)
     }
-    
-    func showError(message: String) {
-        let alertVC = UIAlertController(title: "Login Failed", message: message, preferredStyle: .alert)
-        alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        show(alertVC, sender: nil)
-    }
 }
 
 extension SharePinVC: MKMapViewDelegate {

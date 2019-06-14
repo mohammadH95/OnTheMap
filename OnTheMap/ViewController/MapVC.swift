@@ -43,6 +43,10 @@ class MapVC: UIViewController {
     
     func getStudentLocation() {
         API.getStudentLocation { (locations, error) in
+            if error != nil {
+                self.showError(message: error?.localizedDescription ?? "")
+                return
+            }
             self.studentLocations = locations
             self.updateAnnotations()
         }
@@ -69,12 +73,6 @@ class MapVC: UIViewController {
             annotations.append(annotation)
         }
         self.mapView.addAnnotations(annotations)
-    }
-    
-    func showError(message: String) {
-        let alertVC = UIAlertController(title: "Login Failed", message: message, preferredStyle: .alert)
-        alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        show(alertVC, sender: nil)
     }
 }
 

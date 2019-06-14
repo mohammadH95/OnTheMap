@@ -38,7 +38,6 @@
                                         <state key="normal" title="LOG IN"/>
                                         <connections>
                                             <action selector="loginTapped:" destination="yaY-lu-MGk" eventType="touchUpInside" id="hD4-NQ-3A3"/>
-                                            <segue destination="TrL-iu-Lv5" kind="show" identifier="LoginSuccessfull" id="ZHe-jX-8lN"/>
                                         </connections>
                                     </button>
                                     <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="NOw-se-tcA">
@@ -80,6 +79,7 @@
                         <outlet property="emailText" destination="pGj-fF-Oyc" id="WwX-Rn-d1U"/>
                         <outlet property="login" destination="YFR-ss-EcY" id="bjr-tv-KdW"/>
                         <outlet property="passwordText" destination="JRg-Ev-he1" id="SxL-gP-wqh"/>
+                        <segue destination="TrL-iu-Lv5" kind="show" identifier="LoginSuccessfull" id="Ngj-l8-6WH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CC0-VP-UjF" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -193,7 +193,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="66X-Uq-jwq">
-                                <rect key="frame" x="60" y="238" width="294" height="130"/>
+                                <rect key="frame" x="60" y="238" width="294" height="180"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a Location" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TKM-Zc-56I">
                                         <rect key="frame" x="0.0" y="0.0" width="294" height="30"/>
@@ -214,6 +214,9 @@
                                             <action selector="FindAction:" destination="Zd3-dr-5eg" eventType="touchUpInside" id="YE4-Vw-lBn"/>
                                         </connections>
                                     </button>
+                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="FQO-cT-1aC">
+                                        <rect key="frame" x="0.0" y="150" width="294" height="30"/>
+                                    </activityIndicatorView>
                                 </subviews>
                             </stackView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="icon_world" translatesAutoresizingMaskIntoConstraints="NO" id="Cmr-dG-5xc">
@@ -238,6 +241,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="activityIndicator" destination="FQO-cT-1aC" id="Oxz-wO-VkG"/>
                         <outlet property="cancelButton" destination="dvJ-Nf-40v" id="hLd-5P-sAd"/>
                         <outlet property="findButton" destination="Rvs-ID-f3J" id="tHR-rI-VfC"/>
                         <outlet property="locationText" destination="TKM-Zc-56I" id="wZn-dH-cjv"/>

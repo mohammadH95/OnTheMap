@@ -35,6 +35,10 @@ class TableVC: UITableViewController {
     
     func getStudentLocation() {
         API.getStudentLocation { (locations, error) in
+            if error != nil {
+                self.showError(message: error?.localizedDescription ?? "")
+                return
+            }
             self.studentLocations = locations
             self.tableView.reloadData()
         }
@@ -61,12 +65,5 @@ class TableVC: UITableViewController {
         let student = studentLocations[indexPath.row]
         guard let toOpen = student.mediaURL , let url = URL(string: toOpen) else { return }
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
-    }
-
-    
-    func showError(message: String) {
-        let alertVC = UIAlertController(title: "Login Failed", message: message, preferredStyle: .alert)
-        alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        show(alertVC, sender: nil)
     }
 }

@@ -31,7 +31,7 @@ class API {
             switch self {
             case .login: return Endpoints.base + "/session"
             
-            case .getStudentLocation: return Endpoints.base + "/StudentLocation?order=\(Endpoints.order)"
+            case .getStudentLocation: return Endpoints.base + "/StudentLocation?order=\(Endpoints.order)" + "&limit=\(100)"
                 
             case .getStudentInfo: return Endpoints.base + "/users/" + User.userId
                 
@@ -107,7 +107,7 @@ class API {
     
     class func taskForGETRequest<ResponseType: Decodable>(url: URL, responseType: ResponseType.Type, completion: @escaping (ResponseType?, Error?) -> Void) -> URLSessionTask {
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data = data else {
+            if error != nil {
                 DispatchQueue.main.async {
                     completion(nil, error)
                 }
@@ -117,10 +117,10 @@ class API {
             do {
                 var newData = data
                 if url == Endpoints.getStudentInfo.url {
-                    let range = (5..<data.count)
-                    newData = data.subdata(in: range)
+                    let range = (5..<data!.count)
+                    newData = data!.subdata(in: range)
                 }
-                let responseObject = try decoder.decode(ResponseType.self, from: newData)
+                let responseObject = try decoder.decode(ResponseType.self, from: newData!)
                 DispatchQueue.main.async {
                     completion(responseObject, nil)
                 }
